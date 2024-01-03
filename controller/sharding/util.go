@@ -60,6 +60,11 @@ func IsMaster() bool {
 	return ShardID == MasterShardID
 }
 
+// IsMasterShardId check if current instance is master
+func IsMasterShardId(shardId string) bool {
+	return shardId == MasterShardID
+}
+
 // GetShardIDSuffix return suffix for shard id if enabled
 func GetShardIDSuffix() string {
 	if EnableSharding && !IsMaster() {

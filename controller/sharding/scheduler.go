@@ -105,6 +105,10 @@ type dynamicDiscoveryScheduler struct {
 func (in *dynamicDiscoveryScheduler) _registerPod(obj interface{}) {
 	if pod, ok := obj.(*corev1.Pod); ok {
 		id := pod.GetLabels()[LabelKubeVelaShardID]
+		//master instance does not participate in sharding.
+		if IsMasterShardId(id) {
+			return
+		}
 		healthy := podutils.IsPodReady(pod)
 		klog.Infof("dynamicDiscoveryScheduler register pod %s/%s (id: %s) with health status: %t", pod.Namespace, pod.Name, id, healthy)
 		in.mu.Lock()
